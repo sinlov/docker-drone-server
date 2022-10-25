@@ -57,12 +57,10 @@ docker rm -f test-docker-drone-server
 ## fast dev
 
 ```bash
-$ make runContainerParentBuild
-
 # then test build as test/Dockerfile
-$ make testRestartLatest
+$ make dockerTestRestartLatest
 # clean test build
-$ make testPruneLatest
+$ make dockerTestPruneLatest
 ```
 
 - just online use Dockerfile
