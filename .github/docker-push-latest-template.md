@@ -7,7 +7,7 @@
 - just only support OS/ARCH `linux/amd64`
 
 ```yml
-name: Docker Image CI latest
+name: Docker Image build latest
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build . --file Dockerfile --tag $IMAGE_NAME
-    - name: Log into registry
+    - name: "Login into registry as user: $DOCKER_HUB_USER"
       run: echo "${{ secrets.ACCESS_TOKEN }}" | docker login -u $DOCKER_HUB_USER --password-stdin
     - name: Push image
       run: |
@@ -58,7 +58,7 @@ jobs:
 ## buildx template
 
 ```yml
-name: Docker Image CI latest
+name: Docker Image buildx latest
 
 on:
   push:
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Log into registry
+    - name: "Login into registry as user: $DOCKER_HUB_USER"
       run: echo "${{ secrets.ACCESS_TOKEN }}" | docker login -u $DOCKER_HUB_USER --password-stdin
     - name: Docker buildx ready
       run: |
@@ -103,5 +103,6 @@ jobs:
         echo VERSION=$VERSION
         # build
         docker buildx build -t $IMAGE_ID:$VERSION --platform=linux/arm,linux/arm64,linux/amd64 . --push
+
 
 ```

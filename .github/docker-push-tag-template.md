@@ -8,7 +8,7 @@
 - just only support OS/ARCH `linux/amd64`
 
 ```yml
-nname: Docker Image CI alpine by tag
+name: Docker Image build by tag on alpine
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
     - name: Build the Docker image
       run: |
         cd $IMAGE_BUILD_OS_PATH && docker build . --file Dockerfile --tag $IMAGE_NAME
-    - name: Log into registry
+    - name: "Login into registry as user: $DOCKER_HUB_USER"
       run: echo "${{ secrets.ACCESS_TOKEN }}" | docker login -u $DOCKER_HUB_USER --password-stdin
     - name: Push image
       run: |
@@ -65,7 +65,7 @@ jobs:
 ## buildx template
 
 ```yml
-name: Docker Image CI alpine by tag
+name: Docker Image buildx by tag on alpine
 
 on:
   push:
@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Log into registry
+    - name: "Login into registry as user: $DOCKER_HUB_USER"
       run: echo "${{ secrets.ACCESS_TOKEN }}" | docker login -u $DOCKER_HUB_USER --password-stdin
     - name: Docker buildx ready
       run: |
