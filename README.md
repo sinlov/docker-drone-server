@@ -19,7 +19,8 @@ $ openssl rand -hex 16
 
 - see [https://docs.drone.io/server/provider/gitea/#create-an-oauth-application](https://docs.drone.io/server/provider/gitea/#create-an-oauth-application) to change `DRONE_GITEA_SERVER` `DRONE_GITEA_CLIENT_ID` `DRONE_GITEA_CLIENT_SECRET`
 
-- `DRONE_SERVER_HOST` use `ip:port` or host
+- `DRONE_SERVER_HOST` use `ip:port` or host, like 192.168.110.181:30080
+- `DRONE_RPC_SECRET` init by `openssl rand -hex 16`
 
 ```bash
 # start server
@@ -40,6 +41,46 @@ docker run \
 docker logs test-docker-drone-server
 # rm
 docker rm -f test-docker-drone-server
+```
+
+### docker-compose
+
+```yml
+# copy right by sinlov at https://github.com/sinlov
+# Licenses http://www.apache.org/licenses/LICENSE-2.0
+# more info see https://docs.docker.com/compose/compose-file/ or https://docker.github.io/compose/compose-file/
+version: '3.7'
+services:
+  ## drone start
+  drone-server: # https://hub.docker.com/r/drone/drone
+    container_name: "drone-server"
+    image: 'sinlov/docker-drone-server:latest' # https://hub.docker.com/r/sinlov/docker-drone-server some as https://hub.docker.com/r/drone/drone/tags
+    depends_on:
+      - drone-db
+    environment: # https://docs.drone.io/installation/providers/gitea/
+      - DRONE_OPEN=true
+      - DRONE_AGENTS_ENABLED=true
+      # https://docs.drone.io/server/reference/drone-database-secret/ use DRONE_DATABASE_DATASOURCE or openssl rand -hex 16 for sqlite3
+      - DRONE_DATABASE_SECRET=${ENV_DRONE_POSTGRESQL_PASSWORD}
+      - DRONE_GITEA_SERVER=${ENV_DRONE_GITEA_SERVER}
+      # https://docs.gitea.io/en-us/oauth2-provider/
+      - DRONE_GITEA_CLIENT_ID=${ENV_DRONE_GITEA_CLIENT_ID}
+      - DRONE_GITEA_CLIENT_SECRET=${ENV_DRONE_GITEA_CLIENT_SECRET}
+      - DRONE_SERVER_HOST=${ENV_DRONE_SERVER_HOST}
+      - DRONE_SERVER_PROTO=http
+      # https://docs.drone.io/server/reference/drone-rpc-secret/ openssl rand -hex 16
+      - DRONE_RPC_SECRET=${ENV_DRONE_RPC_SECRET}
+      - DRONE_BRANCH=main
+      - DRONE_REPO_BRANCH=main
+      - DRONE_COMMIT_BRANCH=main
+      - DRONE_USER_CREATE=username:${ENV_DRONE_USER_ADMIN_CREATE},admin:true # https://docs.drone.io/server/reference/drone-user-create/ let ENV_DRONE_USER_ADMIN_CREATE be admin to open Trusted
+    volumes:
+      - ./data/drone-server:/data
+    ports:
+      - 30200:80
+      - 30201:443
+    restart: always # on-failure:3 or unless-stopped default "no"
+  ## drone end
 ```
 
 ## source repo
