@@ -88,6 +88,7 @@ services:
 [https://github.com/sinlov/docker-drone-server](https://github.com/sinlov/docker-drone-server)
 
 - maintain version start at drone 2.14.0
+- version see [https://github.com/harness/drone/releases](https://github.com/harness/drone/releases)
 
 ## todo-list
 
