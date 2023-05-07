@@ -1,7 +1,7 @@
 ## steps Builder
 FROM golang:1.16.0-alpine3.13 AS Builder
 
-ENV DRONE_VERSION 2.16.0
+ENV DRONE_VERSION 2.17.0
 
 # build proxy
 RUN sed -i 's/https:\/\/dl-cdn.alpinelinux.org/http:\/\/mirrors.tuna.tsinghua.edu.cn/' /etc/apk/repositories && \
@@ -18,7 +18,7 @@ RUN apk add curl && \
   curl -L https://github.com/drone/drone/archive/refs/tags/v${DRONE_VERSION}.tar.gz -o v${DRONE_VERSION}.tar.gz && \
   tar zxvf v${DRONE_VERSION}.tar.gz && rm v${DRONE_VERSION}.tar.gz
 # OR with offline tarball
-# ADD drone-2.16.0.tar.gz /src/
+# ADD drone-2.17.0.tar.gz /src/
 
 WORKDIR /src/drone-${DRONE_VERSION}
 
@@ -57,6 +57,6 @@ ENV DRONE_DATADOG_ENABLED=true
 ENV DRONE_DATADOG_ENDPOINT=https://stats.drone.ci/api/v1/series
 
 COPY --from=Certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=Builder /src/drone-2.16.0/drone-server /bin/drone-server
+COPY --from=Builder /src/drone-2.17.0/drone-server /bin/drone-server
 
 ENTRYPOINT ["/bin/drone-server"]

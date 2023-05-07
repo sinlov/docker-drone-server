@@ -8,6 +8,10 @@
 
 - for [https://www.drone.io/](https://www.drone.io/) opensource build
 
+- drone latest veriosn [![](https://img.shields.io/github/v/release/harness/drone?label=drone&logo=drone&style=social)](https://github.com/harness/drone/releases)
+
+- maintain version start at `drone 2.14.0`
+
 ## useage
 
 - super-duper-secret
@@ -86,9 +90,6 @@ services:
 ## source repo
 
 [https://github.com/sinlov/docker-drone-server](https://github.com/sinlov/docker-drone-server)
-
-- maintain version start at drone 2.14.0
-- version see [https://github.com/harness/drone/releases](https://github.com/harness/drone/releases)
 
 ## todo-list
 
