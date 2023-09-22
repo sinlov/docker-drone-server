@@ -1,23 +1,29 @@
-## steps Builder
-FROM golang:1.16.0-alpine3.13 AS Builder
+## steps Builder https://hub.docker.com/_/golang/tags
+FROM golang:1.16.15 AS Builder
 
 ENV DRONE_VERSION 2.18.0
 
-RUN apk add build-base && \
-    go env -w GO111MODULE=on
+# RUN apk add build-base && \
+#     go env -w GO111MODULE=on
 
 WORKDIR /src
 
 # Build with online code
-RUN apk add curl && \
+# RUN apk add curl && \
+#   curl -L https://github.com/drone/drone/archive/refs/tags/v${DRONE_VERSION}.tar.gz -o v${DRONE_VERSION}.tar.gz && \
+#   tar zxvf v${DRONE_VERSION}.tar.gz && rm v${DRONE_VERSION}.tar.gz
+
+RUN apt-get install -y curl && \
   curl -L https://github.com/drone/drone/archive/refs/tags/v${DRONE_VERSION}.tar.gz -o v${DRONE_VERSION}.tar.gz && \
   tar zxvf v${DRONE_VERSION}.tar.gz && rm v${DRONE_VERSION}.tar.gz
 # OR with offline tarball
-# ADD drone-2.18.0.tar.gz /src/
+# ADD drone-${DRONE_VERSION} /src/
 
-WORKDIR /src/drone-${DRONE_VERSION}
+# WORKDIR /src/drone-${DRONE_VERSION}
+# beacuse drone-server change name to gitness
+WORKDIR /src/gitness-${DRONE_VERSION}
 
-RUN go mod download
+RUN go mod download -x
 
 ENV CGO_CFLAGS="-g -O2 -Wno-return-local-addr"
 
@@ -48,6 +54,6 @@ ENV DRONE_DATADOG_ENABLED=true
 ENV DRONE_DATADOG_ENDPOINT=https://stats.drone.ci/api/v1/series
 
 COPY --from=Certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=Builder /src/drone-2.18.0/drone-server /bin/drone-server
+COPY --from=Builder /src/gitness-2.18.0/drone-server /bin/drone-server
 
 ENTRYPOINT ["/bin/drone-server"]

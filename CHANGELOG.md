@@ -2,13 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.18.0](https://github.com/sinlov/docker-drone-server/compare/v2.17.0...v2.18.0) (2023-09-22)
-
-
-### ✨ Features
-
-* drone version to v2.18.0 ([a997e54](https://github.com/sinlov/docker-drone-server/commit/a997e54a00080ea380a946ea43185f8bda23340e))
-
 ## [2.17.0](https://github.com/sinlov/docker-drone-server/compare/v2.16.0...v2.17.0) (2023-05-07)
 
 
