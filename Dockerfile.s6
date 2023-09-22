@@ -1,5 +1,5 @@
-## steps Builder
-FROM golang:1.16.0-alpine3.13 AS Builder
+## steps Builder https://hub.docker.com/_/golang/tags
+FROM golang:1.16.15 AS Builder
 
 ENV DRONE_VERSION 2.18.0
 
@@ -22,7 +22,7 @@ RUN apk add curl && \
 
 WORKDIR /src/drone-${DRONE_VERSION}
 
-RUN go mod download
+RUN go mod download -x
 
 ENV CGO_CFLAGS="-g -O2 -Wno-return-local-addr"
 
