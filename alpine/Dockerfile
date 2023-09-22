@@ -1,7 +1,7 @@
 ## steps Builder https://hub.docker.com/_/golang/tags
 FROM golang:1.16.15 AS Builder
 
-ENV DRONE_VERSION 2.19.0
+ENV DRONE_VERSION 2.20.0
 
 # RUN apk add build-base && \
 #     go env -w GO111MODULE=on
@@ -54,6 +54,6 @@ ENV DRONE_DATADOG_ENABLED=true
 ENV DRONE_DATADOG_ENDPOINT=https://stats.drone.ci/api/v1/series
 
 COPY --from=Certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=Builder /src/gitness-2.19.0/drone-server /bin/drone-server
+COPY --from=Builder /src/gitness-2.20.0/drone-server /bin/drone-server
 
 ENTRYPOINT ["/bin/drone-server"]
