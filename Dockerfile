@@ -3,17 +3,21 @@ FROM golang:1.16.15 AS Builder
 
 ENV DRONE_VERSION 2.18.0
 
-RUN apk add build-base && \
-    go env -w GO111MODULE=on
+# RUN apk add build-base && \
+#     go env -w GO111MODULE=on
 
 WORKDIR /src
 
 # Build with online code
-RUN apk add curl && \
+# RUN apk add curl && \
+#   curl -L https://github.com/drone/drone/archive/refs/tags/v${DRONE_VERSION}.tar.gz -o v${DRONE_VERSION}.tar.gz && \
+#   tar zxvf v${DRONE_VERSION}.tar.gz && rm v${DRONE_VERSION}.tar.gz
+
+RUN apt-get install -y curl && \
   curl -L https://github.com/drone/drone/archive/refs/tags/v${DRONE_VERSION}.tar.gz -o v${DRONE_VERSION}.tar.gz && \
   tar zxvf v${DRONE_VERSION}.tar.gz && rm v${DRONE_VERSION}.tar.gz
 # OR with offline tarball
-# ADD drone-2.18.0.tar.gz /src/
+# ADD drone-${DRONE_VERSION} /src/
 
 WORKDIR /src/drone-${DRONE_VERSION}
 
