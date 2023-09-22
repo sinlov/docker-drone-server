@@ -24,7 +24,9 @@ RUN apt-get install -y curl && \
 # OR with offline tarball
 # ADD drone-${DRONE_VERSION} /src/
 
-WORKDIR /src/drone-${DRONE_VERSION}
+# WORKDIR /src/drone-${DRONE_VERSION}
+# beacuse drone-server change name to gitness
+WORKDIR /src/gitness-${DRONE_VERSION}
 
 RUN go mod download -x
 
@@ -61,6 +63,6 @@ ENV DRONE_DATADOG_ENABLED=true
 ENV DRONE_DATADOG_ENDPOINT=https://stats.drone.ci/api/v1/series
 
 COPY --from=Certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=Builder /src/drone-2.18.0/drone-server /bin/drone-server
+COPY --from=Builder /src/gitness-2.18.0/drone-server /bin/drone-server
 
 ENTRYPOINT ["/bin/drone-server"]
