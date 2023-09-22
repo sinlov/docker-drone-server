@@ -11,11 +11,12 @@
 - drone latest veriosn [![](https://img.shields.io/github/v/release/harness/drone?label=drone&logo=drone&style=social)](https://github.com/harness/drone/releases)
 
 - maintain version start at `drone 2.14.0`
+- latest drone-server version is `2.20.0` change to gitness and remove drone-server at master branch
 
 ## useage
 
 - super-duper-secret
-
+∑
 ```bash
 # super-duper-secret
 $ openssl rand -hex 16

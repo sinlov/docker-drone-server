@@ -1,7 +1,7 @@
 ## steps Builder https://hub.docker.com/_/golang/tags
 FROM golang:1.16.15 AS Builder
 
-ENV DRONE_VERSION 2.18.0
+ENV DRONE_VERSION 2.19.0
 
 # build proxy
 RUN sed -i 's/https:\/\/dl-cdn.alpinelinux.org/http:\/\/mirrors.tuna.tsinghua.edu.cn/' /etc/apk/repositories && \
@@ -63,6 +63,6 @@ ENV DRONE_DATADOG_ENABLED=true
 ENV DRONE_DATADOG_ENDPOINT=https://stats.drone.ci/api/v1/series
 
 COPY --from=Certs /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=Builder /src/gitness-2.18.0/drone-server /bin/drone-server
+COPY --from=Builder /src/gitness-2.19.0/drone-server /bin/drone-server
 
 ENTRYPOINT ["/bin/drone-server"]
